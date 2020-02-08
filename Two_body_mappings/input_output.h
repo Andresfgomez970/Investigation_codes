@@ -8,7 +8,7 @@
  * input:  matrix cotained in a one dimensional array
  * output: matrix in the terminal as output
 */
-int PrintMatrixArray(const double * const M,const int columns, const int rows);
+int PrintMatrixArray(const double * const M, const int columns, const int rows);
 
 
 /*

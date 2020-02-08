@@ -1,36 +1,65 @@
 #include "input_output.h"
 
+/* This file is desired to have several routines that could be commonly 
+  used in order to manage data flux */
 
-int PrintMatrixArray(const double * const M, const int columns, const int rows){
+
+/* This routine is designed in order to print a 2D matrrix that is saved in 
+  a one dimensional array; following the convention Mij = M(i * columns + j) */
+int PrintMatrixArray(const double * const M, const int columns, const int rows)
+{
+  // Define counters
   int i, j;
-  for (i=0; i<rows; i++){
-    for(j=0; j<columns; j++){
-      printf("%.15lf ",M[i*columns+j]);
+
+  // Runing first over rows
+  for (i = 0; i < rows; i++)
+  {
+    // Run over all columns in a given row
+    for(j = 0; j < columns; j++)
+    {
+      // Print with all sig figures
+      printf("%.15lf ",M[i * columns + j]);  
     }
+    // Print space for good formatting in 2D matrix
     printf("%s","\n");
   }
 
   return 0;
 }
 
-int GoToFileLine(FILE * ptr_input_file, const int n){
+
+/* This routine put the pointer that reads the file (ptr_input_file) in its 
+  n-th line */
+int GoToFileLine(FILE * ptr_input_file, const int n)
+{
+  // Defined to count lines
   int i = 0;
+  // Defined to read char by char
   char c;
 
+  /* Put the pointer ptr_input_file with an offset of 0 from the beggning of 
+    the file */
   fseek(ptr_input_file, 0L, SEEK_SET);
 
-  while (i != n-1){
-    fread(&c,sizeof(char),1,ptr_input_file);
-    
+  /* Read char by char and increase i each time a new line character is 
+    encountered */
+  while (i != n-1)
+  {
+    // Read one char in ptr ptr_input_file and save it in c
+    fread(&c, sizeof(char), 1, ptr_input_file);  
+    // Verify increase condition
     if (c=='\n')
       i++;
-    
   }
 
   return 0;
 }
 
-int ValueInLineN(FILE * ptr_input_file, const char * const format, void *ptr, const int n){
+
+/* This routine go to the n-th line and save the value in the general purpose 
+*/
+int ValueInLineN(FILE * ptr_input_file, const char * const format, void *ptr, 
+                 const int n){
 
   GoToFileLine(ptr_input_file, n); 
   fscanf(ptr_input_file, format, ptr, n);
