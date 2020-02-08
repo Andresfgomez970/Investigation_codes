@@ -1,0 +1,35 @@
+General comments about data in/out are done in the routines as well as their specific purpose
+
+----------------------------------------------------------------------
+---------------------------------------------------------------------
+The following are the dependencies of the .h files and their goal
+
+-------------------------------------------
+input_ouput.h : none
+
+This program seeks to have general and useful input-output funtions that could be used with data in different situations.
+
+--
+
+-------------------------------------------
+two_body_aalytical.h : input_output.h
+
+This programs seeks to have different useful routines about the two body problem. 
+
+--
+
+-------------------------------------------
+montecarlo.h : none
+
+This programs seeks to have different useful routines about the montecarlo methodology. 
+
+--
+
+-------------------------------------------
+mappings.h :    input_output.h montecarlo.h two_body_analytical.h
+
+This programs seeks to have functions to be mapped and routines to map such functions under different constrains. 
+
+--
+
+----
