@@ -1,5 +1,5 @@
 CC=gcc
-GSLUBICATION = /home/$(USER)/local/
+GSLUBICATION = /home/$(USER)/locally_install/
 CFLAGS= -I. -I$(GSLUBICATION)include/gsl/ -I$(GSLUBICATION)include/ -g
 LFLAGS= -L$(GSLUBICATION)lib/ -lgsl -lgslcblas -lm
 DEPS = allvars.h
