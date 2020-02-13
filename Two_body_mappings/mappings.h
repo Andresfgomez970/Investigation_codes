@@ -1,8 +1,7 @@
 #include "two_body_analytical.h"
 #include "input_output.h"
 #include "montecarlo.h"
-
-
+  
 ///////////////////////////////////////// Functions that interact with two_body_analytical.h //////////////////////////////////
 
 //// Function that calculates the "distance" between observables and vector state modelated

@@ -1,8 +1,7 @@
 #include "mappings.h"
 
-
 ///////////////////////////////////////////////////////////////////////
-/// Definition of functions to be mapped for some purpose//////////////
+// Definition of functions to be mapped for some purpose
 ///////////////////////////////////////////////////////////////////////
 
 double ChiSquareObservables(const double * const param, const double* const x){
