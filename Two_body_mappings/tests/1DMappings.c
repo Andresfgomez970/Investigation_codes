@@ -1,5 +1,4 @@
-#include <../montecarlo.c>
-
+#include "../montecarlo.c"
 #include <math.h> //Additional for example
 
 double Gaussian(double* param, double *x);
