@@ -34,10 +34,10 @@ int MontecarloUniformSampleGetNPoints(size_t total_config, size_t j_0, size_t n_
 
 
 int MontecarloUniformConstrainedSampleGetNPoints(size_t total_config, size_t j_0, size_t n_points, int n_dim, double *var_0, double *var_f,
-						 double *variables, double (*FunctionIn)(const double * const param, const double * const x),
-						 double *param , FILE* ptr_output_file,
-						 _Bool (* ConstrainF) (const double * const param, const double * const x),
-						 double * param_constrain){
+  double *variables, double (*FunctionIn)(const double * const param, const double * const x),
+	double *param , FILE* ptr_output_file,
+	_Bool (* ConstrainF) (const double * const param, const double * const x),
+  double * param_constrain){
   
   size_t j,l; // General counter, counter for ns_points
   int i;
