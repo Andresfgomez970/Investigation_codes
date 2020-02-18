@@ -1,5 +1,10 @@
 #include "mappings.h"
 
+// This is provitional solution to the Visual Studio error
+#ifndef M_PI
+    #define M_PI 3.14159265358979323846
+#endif
+
 ///////////////////////////////////////////////////////////////////////
 // Definition of functions to be mapped for some purpose
 ///////////////////////////////////////////////////////////////////////
