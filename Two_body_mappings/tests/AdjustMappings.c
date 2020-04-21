@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <gsl/gsl_multifit.h>
 
-////
-// structure of only one function in order to do an array of strucutures and have a kernel
+// Structure of only one function in order to do an array of strucutures and 
+//  have a kernel or a set of function that do something in general
 typedef struct{
 
   double (*f) (double * variables);

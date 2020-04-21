@@ -27,8 +27,8 @@ int MontecarloUniformConstrainedSampleGetNPoints(size_t total_config, size_t j_0
 						 _Bool (* ConstrainF) (const double * const param, const double * const x),
 						 double * param_constrain); 
 
-int GeneratePointFromInputFunction(double * const point, double (*FunctionIn) (const double * const param, const double * const x), const double * const param, 
-double *var_0, double *var_f, int dim);
+int GeneratePointFromInputFunction(const double * const param, double * const point, double (*FunctionIn) (const double * const param, const double * const x), 
+  double * const var_0, double * const var_f, int dim);
 
 //// Save variables in the input pointer
 int SaveVariablesInFile(double *variables, int n_var, int n_points, FILE *ptr_output_file);
