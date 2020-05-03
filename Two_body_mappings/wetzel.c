@@ -15,10 +15,6 @@ The idea in this is to evaluate the consistency of the algorithm and a possible
   that we are in fact supposing to be 10 percent".
 */
 
-
-
-
-
 /* 
 Structure of only one function in order to do an array of this ones and 
   have a kernel or a set of function to do something in general
@@ -33,21 +29,23 @@ typedef struct{
 Strucuture of for the kernel in question that is going to be mapped
 */  
 typedef struct{
-  // Dimension of the resultinf function to be mapped  
+  // Dimension of the result input function to be mapped, number of random var
   int n_dim;
 
   // Dimension of parameters for each function; it is declared for
-  //  initialization in memory.
+  //  initialization in memory. Size of vector para for each set of variables.
   int * dim_of_param;
 
   // Save the parameters for the function i in function_param[i]; so it would 
   //   have dim_of_param[i] parameters.
   double ** function_param;
 
-  // Dimenasion that woud have each function in values space
+  // Dimension that woud have each function in values space
   int * dim_of_val;
 
-  // Ranges of each variable to be mapped.
+  // Ranges of each variable to be mapped; first index refers to the function,
+  //   the second one to the n-th dimension in that function. e.g. 
+  //   probability = F(x1,x2)g(x3) -> dim(val_0) = 1. 
   double ** val_0;
   double ** val_f;
 
@@ -55,8 +53,6 @@ typedef struct{
   Kernel_of_Function * kernel_fuction;
 
 }Kernel_Info;
-
-
 
 /*
 input
@@ -95,7 +91,8 @@ Memory is allocated to the pointer kernel, that will save all the function.
 int DefineConstantKernel(Kernel_of_Function **kernel, int N_dim){
   
   //Allocating memeory of kernel of functions to save N functions
-  *kernel = (Kernel_of_Function *) malloc(sizeof(Kernel_of_Function) * N_dim);
+  * kernel = (Kernel_of_Function *) malloc(sizeof(Kernel_of_Function) * N_dim);
+  
   // Define each function as constant
   for(int i = 0; i < N_dim; i++)
     (*kernel + i)->f = Constant;
@@ -104,8 +101,12 @@ int DefineConstantKernel(Kernel_of_Function **kernel, int N_dim){
 }
 
 int InitConstantKernelInfo(Kernel_Info *kernel){
-  // Init arra to save the dimension of the parameters for each function
-  kernel -> n_dim = 6;
+  // ------------------------------------------------------------
+  // TODO: do with general function, input from header file (all data for
+  //   program to run), program can be run in any units (-> G can be changed).
+
+  // Init array to save the dimension of the parameters for each function
+  kernel -> n_dim = 6; // This is the number of functions to be mapped
   kernel -> dim_of_param = (int *) malloc(sizeof(int) * kernel->n_dim);
 
   // When no params are given, as for a constant kernel the dimension on the
@@ -115,27 +116,35 @@ int InitConstantKernelInfo(Kernel_Info *kernel){
 
   // Allocate the array to save the parameters for each function and then 
   //   allocate memory for the parameters of each function.
-  kernel -> function_param = (double **) malloc(sizeof(double *) * kernel->n_dim);
+  kernel -> function_param = (double **) malloc(sizeof(double *) * kernel -> n_dim);
 
   for(int i = 0; i < kernel->n_dim; i++)
     (kernel -> function_param)[i] = (double *) malloc(sizeof(double) * (kernel -> dim_of_param)[i]);
 
 
-  // Allocate the memory for val_0 and val_f
-  kernel -> val_0 = (double **) malloc(sizeof(double *) * kernel->n_dim);
-  kernel -> val_f = (double **) malloc(sizeof(double *) * kernel->n_dim);
-
-  // Here all the distributions are taken as mapped from independent variables.
+  // This would save the dimensional space of the random variables of each 
+  //  function.
   kernel -> dim_of_val = (int *) malloc(sizeof(int) * kernel->n_dim);
-
+  
+  // Again in constant kernel the dim_of_val is taken as 1 for each function.
   for(int i = 0; i < kernel->n_dim; i++)
     (kernel -> dim_of_val)[i] = 1; 
 
+  // Allocate the memory for val_0 and val_f; the first index indicate the 
+  //   function, the second one the initial or final value of the of the 
+  //   variables to be mapped in question.
+  kernel -> val_0 = (double **) malloc(sizeof(double *) * kernel->n_dim);
+  kernel -> val_f = (double **) malloc(sizeof(double *) * kernel->n_dim);
+
+  // Each val_i/f[function_index] will have dimension one as dim of value
+  //  indicate.
   for(int i = 0; i < kernel->n_dim; i++){
     (kernel -> val_0)[i] = (double *) malloc(sizeof(double) * (kernel -> dim_of_val)[i]);
     (kernel -> val_f)[i] = (double *) malloc(sizeof(double) * (kernel -> dim_of_val)[i]);    
   }
 
+  // -----------------------------------------------
+  // TODO: recieve input for this
   // Initializing init values
   (kernel -> val_0)[0][0] = 3.0;
   (kernel -> val_0)[1][0] = 0.0;
@@ -161,7 +170,7 @@ int InitConstantKernelInfo(Kernel_Info *kernel){
 /*
 Do generate point for kernel
 */ 
-int GenPointForKernel(double * point, Kernel_Info kernel, FILE * ptr_file){
+int GenPointForKernel(double * point, Kernel_Info kernel){
   // Go over each function and generate each point
   for(int i = 0; i < kernel.n_dim; i++){
     /*
@@ -207,7 +216,8 @@ int InitConstrainInfo(Constrain_info * constrain_info){
   constrain_info -> param_constrain = (double *) malloc(sizeof(double) * 5);
   
   // constrain_info 
-  double mu = ( (0.16+70.19+5.59+2.39)+(0.03+3.05+0.11+0.03) )*43007.1;
+  double G = 43007.1;
+  double mu = ( (0.16+70.19+5.59+2.39)+(0.03+3.05+0.11+0.03) )*G;
   (constrain_info -> param_constrain)[0] = 17.95;
   (constrain_info -> param_constrain)[1] = -17.47;
   (constrain_info -> param_constrain)[2] = 192.0*1.023;
@@ -230,9 +240,9 @@ typedef struct{
 
 int InitRunInfo(Run_info * run_info){
 
-  run_info -> total_config = 10; 
+  run_info -> total_config = 1000; 
   run_info -> j_0 = 0; 
-  run_info -> n_points = 10; 
+  run_info -> n_points = 1000; 
 
   return 0; 
 }
@@ -240,7 +250,7 @@ int InitRunInfo(Run_info * run_info){
 int MontecarloStrcuturesConstrainedSampleGetNPoints(FILE * ptr_output_file,
     Run_info run_info, Kernel_Info kernel_info, Constrain_info constrain_info){ 
   
-  size_t j,l; // General counter, counter for ns_points
+  size_t j, l; // General counter, counter for ns_points
   int i = 0;
   // x array over which the condition is applied, and also saves the result of
   //  the metric
@@ -250,13 +260,13 @@ int MontecarloStrcuturesConstrainedSampleGetNPoints(FILE * ptr_output_file,
   double * variables = (double *) malloc(run_info.n_points * (kernel_info.n_dim + 1) * sizeof(double));
  
   l = 0;
-  j = run_info.j_0; 
+  j = run_info.j_0;
   while(j < run_info.total_config){
     // printf("%ld\n", j);
     // Generate point according to kernel and save in variables the found point; 
     //   later will be evaluated if it satisfy further posteriors.
 
-    GenPointForKernel(x, kernel_info, ptr_output_file);
+    GenPointForKernel(x, kernel_info);
 
     for (i = 0; i < kernel_info.n_dim; i++){
       variables[l * (kernel_info.n_dim + 1) + i] = x[i];
@@ -273,10 +283,10 @@ int MontecarloStrcuturesConstrainedSampleGetNPoints(FILE * ptr_output_file,
     if(constrain_info.ConstrainF(constrain_info.param_constrain, x)){
       l++;
       j++;
-      printf("index save: %ld \n", l * (1 + kernel_info.n_dim));
-      printf("%ld\n", j);  
+      // printf("index save: %ld \n", l * (1 + kernel_info.n_dim));
+      // printf("%ld\n", j);  
       printf("%zu j , %d j<total_config \n", j, j < run_info.total_config); 
-      printf("%d\n\n", l==run_info.n_points);
+      printf("l==run_info.n_points %d\n\n", l==run_info.n_points);
     }
     
     
@@ -290,8 +300,8 @@ int MontecarloStrcuturesConstrainedSampleGetNPoints(FILE * ptr_output_file,
   }
 
   printf("here: %ld", l);
-  // if(l !=0 )
-  //    SaveVariablesInFile(variables, kernel_info.n_dim + 1, l, ptr_output_file);
+  if(l !=0 )
+    SaveVariablesInFile(variables, kernel_info.n_dim + 1, l, ptr_output_file);
 
   return 0;
 }
@@ -338,9 +348,22 @@ int main()
   Constrain_info constrain_info;
   Run_info run_info;
 
-  InitConstantKernelInfo(&kernel_info);
- 
-  /* 
+  InitConstantKernelInfo(&kernel_info); 
+  InitConstrainInfo(&constrain_info);
+  InitRunInfo(&run_info);
+
+  FILE * ptr_file; 
+  ptr_file = fopen("Here.dat", "wb+");
+
+  MontecarloStrcuturesConstrainedSampleGetNPoints(ptr_file, run_info, 
+      kernel_info, constrain_info);
+
+  fclose(ptr_file);
+  return 0;
+}
+
+
+/* 
   // Verify info of Constant kernel
   printf("dim: %d\n", kernel_info.n_dim); 
   for(int i = 0; i < kernel_info.n_dim; i++){
@@ -350,18 +373,4 @@ int main()
     printf(" \n");
   }
   exit(0);
-  */
- 
-  InitConstrainInfo(&constrain_info);
-  InitRunInfo(&run_info);
-
-  FILE * ptr_file; 
-  ptr_file = fopen("Here.dat", "wb+");
-  printf("%p", ptr_file);
-
-  MontecarloStrcuturesConstrainedSampleGetNPoints(ptr_file, run_info, 
-      kernel_info, constrain_info);
-
-  fclose(ptr_file);
-  return 0;
-}
+*/
