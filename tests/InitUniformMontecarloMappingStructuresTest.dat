@@ -1,0 +1,21 @@
+#FixHeaderLen(bytes)----------                                                                      
+      1351
+#FixNumberOfLines----------                                                                         
+        21
+#Namefile----------                                                                                 
+InitUniformMontecarloMappingStructuresTest.dat                                                      
+#Method------------                                                                                 
+Rejection                                                                                           
+#Npoints-----------                                                                                 
+               10000
+#Nvar--------------                                                                                 
+         2
+U0------------                                                                                      
+#x0--                                                                                               
+               0
+               1
+#x1--                                                                                               
+              -3
+               3
+max_value                                                                                           
+               1

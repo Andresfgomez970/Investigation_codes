@@ -1,0 +1,18 @@
+{
+    "total_config": 10000,
+    "n_points" : 1000, 
+    "j_0": 0,
+    "out_filename": "GeneratePointsFromParamFileTest_DoubleCircle.dat",
+    "methodology": "Rejection",
+    "n_dim" : 3, 
+    "val_0": [-10.0, -10.0, -10.0], 
+    "val_f": [10.0, 10.0, 10.0],
+    "variables_name" : ["x", "y", "z"],
+    "AuxF": "Norm",
+    "param_aux" : [2.9],
+    "param_aux_names": ["integer index bound"],
+    "ConstrainF": "LessThanIndexi",
+    "param_constrain": [3.0, 5.0],
+    "param_constrain_names": ["index", "maxvalue"],
+    "constrain_message": "Norm(x, y, z) <= 5"
+}

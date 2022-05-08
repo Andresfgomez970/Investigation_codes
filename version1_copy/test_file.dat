@@ -1,0 +1,30 @@
+#FixHeaderLen(bytes)----------                                                                      
+      1672
+#FixNumberOfLines----------                                                                         
+        30
+#Namefile----------                                                                                 
+test_name                                                                                           
+#Method------------                                                                                 
+test_method                                                                                         
+#Npoints-----------                                                                                 
+            10000000
+#Nvar--------------                                                                                 
+         6
+#rmin(min/max)                                                                                      
+               0
+               1
+#f(min/max)                                                                                         
+               1
+               2
+#e(min/max)                                                                                         
+               2
+               3
+#w(min/max)                                                                                         
+               3
+               4
+#i(min/max)                                                                                         
+               4
+               5
+#W(min/max)                                                                                         
+               5
+               6

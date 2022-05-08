@@ -1,0 +1,22 @@
+#FixHeaderLen(bytes)----------                                                                      
+      1132
+#FixNumberOfLines----------                                                                         
+        18
+#Namefile----------                                                                                 
+fake_map
+                                                                                           
+#Method------------                                                                                 
+any
+                                                                                                
+#Npoints-----------                                                                                 
+                1000
+#Nvar--------------                                                                                 
+         2
+#var1
+                                                                                              
+               0
+               1
+#var2
+                                                                                              
+               1
+               2

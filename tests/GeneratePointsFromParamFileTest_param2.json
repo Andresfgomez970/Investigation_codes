@@ -1,0 +1,27 @@
+{
+    "_comment": "run infromation",
+    "total_config": 10000,
+    "j_0": 0,
+    "n_points": 1000,
+    "out_filename": "GeneratePointsFromParamFileTest_DoubleGaussianAndConstant.dat",
+    "methodology": "rejection",
+
+    "_comment": "kernel infromation",
+    "n_dim": 3,
+    "val_0": [[-3.0, -9.0], [-5.0]],
+    "val_f": [[ 3.0,  9.0], [ 5.0]],
+    "function_param": [[0.0, 1.0, 0.0, 3.0], [0.0]],
+    "function_param_names": [["mean_x", "sigma_x", "mean_y", "sigma_y"], ["None"]],
+    "function_names": ["DoubleGaussian", "Constant"],
+    "function_variables_names": ["x", "y", "z"],
+    "f_max_values": [0.57, 0.57, 1.0],
+
+    "_comment": "constrain information",
+    "AuxF": "Norm",
+    "param_aux" : [2.9],
+    "param_aux_names": ["integer index bound"],
+    "ConstrainF": "LessThanIndexi",
+    "param_constrain": [3.0, 30.0],
+    "param_constrain_names": ["index", "maxvalue"],
+    "constrain_message": "Norm(x, y, z) <= 5"
+}
