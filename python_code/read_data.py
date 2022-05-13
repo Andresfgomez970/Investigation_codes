@@ -87,7 +87,7 @@ class Header:
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
 
-    # print(Header(name).read_header())
+    print(Header(name).read_header())
     # print(read_header(name))
     # print(read_header(name))
     # header, data = get_data(name)
