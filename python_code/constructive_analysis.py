@@ -1,48 +1,15 @@
+from read_data import get_data
 import struct as struct
 import numpy as np
 import matplotlib.pyplot as plt
 import re
 import os
 
-DOUBLE_SIZE = 8
+
 
 ###############################################################################
-# input output functions
+# some default parameters
 ###############################################################################
-def get_data(name):
-    # read header param and real size
-    with open(name, "rb") as binary_file:
-        # Read the header to skipt it
-        n_lines = 1
-        while(n_lines < 13):
-            c = binary_file.read(1)
-            if (c == b'\n'):
-                n_lines += 1
-            if (n_lines == 2):
-                n_bytes_header = int(binary_file.read(10))
-            elif (n_lines == 10):
-                npoints = int(binary_file.read(20))
-            elif(n_lines == 12):
-                ndim = int(binary_file.read(10)) + 1
-
-    with open(name, "rb") as binary_file:
-        # Read the header to skipt it
-        couple_bytes = binary_file.read(n_bytes_header)
-        # Try to read npoints * ndim * DOUBLE_SIZE bytes
-        size = len(binary_file.read(npoints * ndim * DOUBLE_SIZE))
-
-    with open(name, "rb") as binary_file:
-        # Read the header to skipt it
-        couple_bytes = binary_file.read(n_bytes_header)
-        couple_bytes = binary_file.read(size)
-        if (len(couple_bytes) != npoints * ndim * 8):
-            print("Expected size: %d, but input size: %d in %s" %
-                  (npoints * ndim * 8, size, name))
-            npoints = size // (ndim * 8)
-        data = np.array(struct.unpack('d' * npoints * ndim,
-                                      couple_bytes)).reshape(npoints, ndim)
-    return data
-
 
 ###############################################################################
 # basic plot functions
@@ -159,18 +126,18 @@ def examples_basicU_correlation_maps(files, plot):
 def basic_histograms(name, plot_params=None):
     data = get_data(name)
 
-    filename = plot_params["filename"]
-    r_min_max = plot_params["rmin_max"]
-    plot = plot_params["plot"]
-
-    data = get_data(name)
-    npoints = len(data[:, 0])
+    # filename = plot_params["filename"]
+    # r_min_max = plot_params["rmin_max"]
+    # plot = plot_params["plot"]
 
     names = ["r", "f", "e", "w", "i", "W"]
     val_0 = [0, 0, 0.3, 0, 0, 0]
-    val_f = [r_min_max, 2 * np.pi, 5, 2 * np.pi, np.pi, 2 * np.pi]
+    val_f = [100, 2 * np.pi, 5, 2 * np.pi, np.pi, 2 * np.pi]
 
+    npoints = len(data[:, 0])
     n_bins = int(npoints ** (1 / 3.))
+    filename = 'save_test.png'
+    plot = True
 
     fig, axs = plt.subplots(2, 3, figsize=(20, 10))
     for i in range(data.shape[1] - 1):
@@ -338,10 +305,7 @@ def main():
     files = {"LauraUCase": "../data/defaults/DefaultLauraUniform.dat",
              "QuirogaUCase": "../data/defaults/DefaultQuiroga1M.dat"}
 
-    # examples_basicU_correlation_maps(files, plot=0)
-    # examples_basicU_histograms(files, plot=1)
-
-    complete_correlation_analysis(files)
+    basic_histograms(files['LauraUCase'])
 
 
 if __name__ == '__main__':
