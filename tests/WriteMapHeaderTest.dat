@@ -10,11 +10,11 @@ Rejection
                10000
 #Nvar--------------                                                                                 
          2
-U0------------                                                                                      
-#disease_test--                                                                                     
+#U0------------                                                                                     
+disease_test--                                                                                      
                0
                1
-#index--                                                                                            
+index--                                                                                             
               -3
                3
 max_value                                                                                           
