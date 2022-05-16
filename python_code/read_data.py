@@ -96,17 +96,15 @@ class Header:
 
     def to_json(self):
         header_string = self.read_header()
-        print(header_string)
+        # print(header_string)
         header_json = {}
         lines = header_string.split('\n')
+        print(lines)
         for i_line in range(len(lines)):
-            if lines[i_line][0] == '#':
-                name = lines[i_line].replace('-', '').replace('#', '').strip()
-                header_json[name] = self.parse_value(lines[i_line + 1])
-            if i_line == 12:
-                print(header_json)
-                break
-
+            # print(i_line, len(lines) - 1, i_line < len(lines) - 2)# , (i_line < len(lines) - 1 and lines[i_line + 2][0] == '#'))
+            # if lines[i_line][0] == '#' and ((i_line < len(lines) - 2 and lines[i_line + 2][0] == '#') or i_line == len(lines) - 2): 
+            #     name = lines[i_line].replace('-', '').replace('#', '').strip()
+            #     header_json[name] = self.parse_value(lines[i_line + 1])
 
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
