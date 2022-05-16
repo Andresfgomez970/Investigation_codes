@@ -529,7 +529,7 @@ int WriteMapHeaderFromKernels(Run_info *run_info, Kernel_Info *kernel_info, Cons
   
   int index = 0;
   for(i=0; i < kernel_info->n_functions;i++){
-    sprintf(dummy2, "#%s------------", kernel_info->function_names[i]);
+    sprintf(dummy2, "%s------------", kernel_info->function_names[i]);
     WriteLine(dummy, dummy2, ptr_output_file);
     for(j = 0; j < kernel_info->dim_of_val[i]; j++){
       sprintf(dummy2, "%s--", kernel_info->function_variables_names[index]);
