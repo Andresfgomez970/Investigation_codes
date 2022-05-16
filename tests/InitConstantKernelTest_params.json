@@ -1,0 +1,6 @@
+{
+"n_dim" : 2, 
+"val_0": [0.0, -3.0], 
+"val_f": [1.0, 3.0],
+"out_filename": "InitConstantKernelTest.dat"
+}

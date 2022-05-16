@@ -1,0 +1,21 @@
+{
+    "total_config": 100000,
+    "n_points" : 100000, 
+    "j_0": 0,
+    "out_filename": "WetzelFunctions_e.dat",
+    "methodology": "uniform_mapping",
+    "n_dim" : 1, 
+    "val_0": [[0.0]], 
+    "val_f": [[1.0]],
+    "function_param": [[0.0]],
+    "function_names": ["Constant"],
+    "function_variables_names": ["e"],
+    "f_max_values": [16.0, 1.0, 3.0],
+    "AuxF": "WetzeleFixed",
+    "param_aux_names": ["alpha_C0", "beta_C0", "gamma_C0", "z", "Mhost", "alpha_C1", "beta_C1", "gamma_C1", "z", "Mhost"],
+    "param_aux" : [3.38, 0.567, 0.152, 0.0, 78.0e10, 0.242, 2.36, 0.108, 0.0, 78.0e10],
+    "ConstrainF": "Pass",
+    "param_constrain_names": ["None"],
+    "param_constrain": [0.0],
+    "constrain_message": "Plot the e distribution"
+}

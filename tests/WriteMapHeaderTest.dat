@@ -1,0 +1,41 @@
+#FixHeaderLen(bytes)----------                                                                      
+      2699
+#FixNumberOfLines----------                                                                         
+        41
+#Namefile----------                                                                                 
+WriteMapHeaderTest.dat                                                                              
+#Method------------                                                                                 
+Rejection                                                                                           
+#Npoints-----------                                                                                 
+               10000
+#Nvar--------------                                                                                 
+         2
+#U0------------                                                                                     
+disease_test--                                                                                      
+               0
+               1
+index--                                                                                             
+              -3
+               3
+max_value                                                                                           
+               1
+#ConstrainMessage----------                                                                         
+Observational resolution                                                                            
+#ChiSquareObservables------------                                                                   
+param_aux0                                                                                          
+           0.578
+param_aux1                                                                                          
+          -0.794
+param_aux2                                                                                          
+          -0.007
+param_aux3                                                                                          
+               1
+#ChiSquareObservablesNPercentError------------                                                      
+param_constrain0                                                                                    
+           0.578
+param_constrain1                                                                                    
+          -0.794
+param_constrain2                                                                                    
+          -0.007
+param_constrain3                                                                                    
+             0.1

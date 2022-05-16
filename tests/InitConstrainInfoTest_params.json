@@ -1,0 +1,7 @@
+{
+"AuxF": "ChiSquareObservables",
+"param_aux" : [0.578, -0.794, -0.007, 1.0], 
+"ConstrainF": "ChiSquareObservablesNPercentError",
+"param_constrain": [0.578, -0.794, -0.007, 1.0, 0.1],
+"constrain_message": "This is a test"
+}
