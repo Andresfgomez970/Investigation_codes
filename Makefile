@@ -1,8 +1,7 @@
 CC=gcc
-GSLUBICATION = /home/$(USER)/locally_install/
-JSONUBICATION = /home/$(USER)/locally_install/json-c-0.15/
-CFLAGS=  -Wall -g -I. -I$(GSLUBICATION)include/gsl/ -I$(JSONUBICATION)include/json-c/
-LFLAGS= -L$(GSLUBICATION)lib/ -L$(GSLUBICATION)lib/ -lgsl -lgslcblas -lm -ljson-c -lpthread
+LIBS_UBICATION = /home/$(USER)/locally_install/
+CFLAGS=  -Wall -g -I. -I$(LIBS_UBICATION)include/gsl/ -I$(LIBS_UBICATION)include/json-c/
+LFLAGS= -L$(LIBS_UBICATION)lib/ -lgsl -lgslcblas -lm -ljson-c -lpthread
 DEPS = allvars.h
 OBJ = main.o two_body_analytical.o input_output.o montecarlo.o mappings.o #Nbody_newton_integrator.o initializations.o  
 EXEC = main.out

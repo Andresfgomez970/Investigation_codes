@@ -631,7 +631,7 @@ int WriteMapConstrainHeaderFromKernels(Run_info *run_info, Kernel_Info *kernel_i
   bytes_header_size += real_str_size * 2 +
                        real_str_size * 1 + real_str_size * constrain_info->n_param_aux +  (DOUBLE_LEN + 1) * constrain_info->n_param_aux +
                        real_str_size * 1 + real_str_size * constrain_info->n_param_constrain +  (DOUBLE_LEN + 1) * constrain_info->n_param_constrain;
-  n_lines += 2 + 2 + constrain_info->n_param_aux * 2 + 2 + constrain_info->n_param_constrain * 2; 
+  n_lines += 2 + 1 + constrain_info->n_param_aux * 2 + 1 + constrain_info->n_param_constrain * 2; 
 
   GoToFileLine(ptr_output_file, 2);
   fprintf(ptr_output_file,"%10d\n", bytes_header_size);
