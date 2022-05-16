@@ -1,6 +1,8 @@
+from email.quoprimime import header_check
 import struct as struct
 import numpy as np
 import pandas as pd
+from utils import *
 
 DOUBLE_SIZE = 8
 
@@ -60,32 +62,57 @@ class Header:
         pass
 
     def lines_of_header(self):
-        actual_line, n_lines = 1, 5
-        while(actual_line < n_lines):
-            c = self.binary_file.read(1)
-            if c == b'\n': actual_line += 1 
+        # set up file from the beginning again
+        self.binary_file = self.read_file()
+
+        actual_line, lines_info_line = 1, 4
+        while actual_line <= lines_info_line:
+            c = self.binary_file.read(1) 
+            if c == b'\n': actual_line += 1
             if actual_line == 4:
                 n_lines = int(self.binary_file.read(10))
-                self.binary_file = self.read_file()
                 return n_lines
 
     def read_header(self):
         header, actual_line = '', 0
-        n_lines = self.lines_of_header() - 2
-        while actual_line < n_line  s:
+
+        n_lines_header = self.lines_of_header()
+        # set up file from the beginning again
+        self.binary_file = self.read_file()
+
+        while actual_line < n_lines_header:
             c = self.binary_file.read(1)
-            header += c.decode('UTF-8')
-            if c == '\n': print(c == '\n', c)
             if c == b'\n': actual_line += 1
+            header += c.decode('UTF-8')
         return header
 
+    def parse_value(self, value):
+        if is_int(value):
+            return int(value)
+        elif is_float(value):
+            return float(value)
+        else:
+            return value.replace('\r', '').strip()
+
+    def to_json(self):
+        header_string = self.read_header()
+        print(header_string)
+        header_json = {}
+        lines = header_string.split('\n')
+        for i_line in range(len(lines)):
+            if lines[i_line][0] == '#':
+                name = lines[i_line].replace('-', '').replace('#', '').strip()
+                header_json[name] = self.parse_value(lines[i_line + 1])
+            if i_line == 12:
+                print(header_json)
+                break
 
 
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
-    text_file = open("data.txt", "w")
-    text_file.write(Header(name).read_header())
-    text_file.close()
+    Header(name).to_json()
+
+
     # print(read_header(name))
     # print(read_header(name))
     # header, data = get_data(name)
