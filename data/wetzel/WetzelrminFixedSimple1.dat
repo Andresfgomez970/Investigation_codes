@@ -1,0 +1,104 @@
+#FixHeaderLen(bytes)----------                                                                      
+      6374
+#FixNumberOfLines----------                                                                         
+       106
+#Namefile----------                                                                                 
+data/wetzel/WetzelrminFixedSimple1.dat                                                              
+#Method------------                                                                                 
+Rejection                                                                                           
+#Npoints-----------                                                                                 
+              100000
+#Nvar--------------                                                                                 
+         6
+WetzelrminFixed------------                                                                         
+#rmin--                                                                                             
+               0
+             100
+alpha_R0--                                                                                          
+            3.14
+beta_R0--                                                                                           
+           0.152
+gamma_R0--                                                                                          
+            0.41
+z--                                                                                                 
+               0
+Mhost--                                                                                             
+    780000000000
+alpha_R1--                                                                                          
+            0.45
+beta_R1--                                                                                           
+          -0.395
+gamma_R1--                                                                                          
+           0.109
+z--                                                                                                 
+               0
+Mhost--                                                                                             
+    780000000000
+max_value                                                                                           
+ 4.3112065166989
+Constant------------                                                                                
+#f--                                                                                                
+               0
+6.28318530717959
+None--                                                                                              
+               0
+max_value                                                                                           
+               1
+WetzeleFixed------------                                                                            
+#e--                                                                                                
+               0
+               1
+alpha_C0--                                                                                          
+            3.38
+beta_C0--                                                                                           
+           0.567
+gamma_C0--                                                                                          
+           0.152
+z--                                                                                                 
+               0
+Mhost--                                                                                             
+    780000000000
+alpha_C1--                                                                                          
+           0.242
+beta_C1--                                                                                           
+            2.36
+gamma_C1--                                                                                          
+           0.108
+z--                                                                                                 
+               0
+Mhost--                                                                                             
+    780000000000
+max_value                                                                                           
+ 6.0532114528298
+Constant------------                                                                                
+#w--                                                                                                
+               0
+6.28318530717959
+#i--                                                                                                
+               0
+3.14159265358979
+#W--                                                                                                
+               0
+6.28318530717959
+None--                                                                                              
+               0
+max_value                                                                                           
+               1
+#ConstrainMessage----------                                                                         
+Accept point with resolution error (wetzel)                                                         
+#ChiSquareObservables------------                                                                   
+xobs                                                                                                
+           17.95
+yobs                                                                                                
+          -17.47
+vzobs                                                                                               
+             192
+mu                                                                                                  
+     3507229.005
+#ChiSquareObservablesResolution------------                                                         
+x_res                                                                                               
+             0.2
+y_res                                                                                               
+             0.2
+vz_res                                                                                              
+               2

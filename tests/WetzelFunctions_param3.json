@@ -1,0 +1,23 @@
+{
+    "total_config": 100000,
+    "n_points" : 100000, 
+    "j_0": 0,
+    "out_filename": "WetzelrminFixed3.dat",
+    "methodology": "Rejection",
+    "n_dim" : 2, 
+    "val_0": [[0.0],  [0.0],               [0.0]], 
+    "val_f": [[100.0], [6.283185307179586], [1.0]],
+    "function_param": [[3.14, 0.152, 0.410, 0.0, 78.0e10, 0.450, -0.395, 0.109, 0.0, 78.0e10],
+                       [0.0],
+                       [3.38, 0.567, 0.152, 0.0, 78.0e10, 0.242, 2.36, 0.108, 0.0, 78.0e10]],
+    "function_names": ["WetzelrminFixed", "Constant","WetzeleFixed"],
+    "function_variables_names": ["rmin", "f", "e"],
+    "f_max_values": [16.0, 1.0, 3.0],
+    "AuxF": "Constant",
+    "param_aux_names": ["None"],
+    "param_aux" : [0.0],
+    "ConstrainF": "Pass",
+    "param_constrain_names": ["None"],
+    "param_constrain": [0.0],
+    "constrain_message": "Map the r_peri distribution"
+}

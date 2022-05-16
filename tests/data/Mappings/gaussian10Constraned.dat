@@ -1,0 +1,17 @@
+#FixHeaderLen(bytes)----------                                                 
+       968
+#FixNumberOfLines----------                                                    
+        17
+#Namefile----------                                                            
+data/Mappings/gaussian10.dat                                                   
+#Method------------                                                            
+UniformMontecarloMap                                                           
+#Npoints-----------                                                            
+                  10
+#Nvar--------------                                                            
+         1
+#x(min/max)                                                                    
+              -4
+               4
+#ConstrainMessage----------                                                    
+-3<x<3                                                                         
