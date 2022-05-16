@@ -76,7 +76,7 @@ class Header:
     def read_header(self):
         header, actual_line = '', 0
 
-        n_lines_header = self.lines_of_header()
+        n_lines_header = 51 # self.lines_of_header()
         # set up file from the beginning again
         self.binary_file = self.read_file()
 
@@ -110,8 +110,7 @@ class Header:
 
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
-    Header(name).to_json()
-
+    print(Header(name).to_json())
 
     # print(read_header(name))
     # print(read_header(name))
