@@ -1,10 +1,9 @@
 # General compile options
 CC=gcc
-GSLUBICATION = /home/$(USER)/locally_install/
-JSONUBICATION = /home/$(USER)/locally_install/json-c-0.15/
+LIBS_UBICATION = /home/$(USER)/locally_install/
 # General flags
-CFLAGS= -Wall -g -I. -I$(GSLUBICATION)include/gsl/ -I$(JSONUBICATION)include/json-c/
-LFLAGS= -L$(GSLUBICATION)lib/ -lgsl -lgslcblas -lm -ljson-c
+CFLAGS= -Wall -g -I. -I$(LIBS_UBICATION)include/gsl/ -I$(LIBS_UBICATION)include/json-c/
+LFLAGS= -L$(LIBS_UBICATION)lib/ -lgsl -lgslcblas -lm -ljson-c
 # Main routine programs dependences
 OBJ_input_output = ../input_output.o
 OBJ_two_body_analytical = ../two_body_analytical.o ../input_output.o
