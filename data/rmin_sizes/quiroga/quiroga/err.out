@@ -1,0 +1,41 @@
+7f6aa4000000-7f6aa4021000 rw-p 00000000 00:00 0
+7f6aa4021000-7f6aa8000000 ---p 00000000 00:00 0
+7f6aa8000000-7f6aa8021000 rw-p 00000000 00:00 0
+7f6aa8021000-7f6aac000000 ---p 00000000 00:00 0
+7f6aac000000-7f6aac021000 rw-p 00000000 00:00 0
+7f6aac021000-7f6ab0000000 ---p 00000000 00:00 0
+7f6ab01c5000-7f6ab01c6000 ---p 00000000 00:00 0
+7f6ab01c6000-7f6ab09c6000 rw-p 00000000 00:00 0
+7f6ab09c6000-7f6ab09c7000 ---p 00000000 00:00 0
+7f6ab09c7000-7f6ab11c7000 rw-p 00000000 00:00 0
+7f6ab11c7000-7f6ab11c8000 ---p 00000000 00:00 0
+7f6ab11c8000-7f6ab19c8000 rw-p 00000000 00:00 0
+7f6ab19c8000-7f6ab1b88000 r-xp 00000000 08:01 4851446                    /lib/x86_64-linux-gnu/libc-2.23.so
+7f6ab1b88000-7f6ab1d88000 ---p 001c0000 08:01 4851446                    /lib/x86_64-linux-gnu/libc-2.23.so
+7f6ab1d88000-7f6ab1d8c000 r--p 001c0000 08:01 4851446                    /lib/x86_64-linux-gnu/libc-2.23.so
+7f6ab1d8c000-7f6ab1d8e000 rw-p 001c4000 08:01 4851446                    /lib/x86_64-linux-gnu/libc-2.23.so
+7f6ab1d8e000-7f6ab1d92000 rw-p 00000000 00:00 0
+7f6ab1d92000-7f6ab1da6000 r-xp 00000000 08:03 17564646                   /home/agomez/locally_install/json-c-0.15/lib/libjson-c.so.5.1.0
+7f6ab1da6000-7f6ab1fa5000 ---p 00014000 08:03 17564646                   /home/agomez/locally_install/json-c-0.15/lib/libjson-c.so.5.1.0
+7f6ab1fa5000-7f6ab1fa6000 r--p 00013000 08:03 17564646                   /home/agomez/locally_install/json-c-0.15/lib/libjson-c.so.5.1.0
+7f6ab1fa6000-7f6ab1fa7000 rw-p 00014000 08:03 17564646                   /home/agomez/locally_install/json-c-0.15/lib/libjson-c.so.5.1.0
+7f6ab1fa7000-7f6ab1fbf000 r-xp 00000000 08:01 4851445                    /lib/x86_64-linux-gnu/libpthread-2.23.so
+7f6ab1fbf000-7f6ab21be000 ---p 00018000 08:01 4851445                    /lib/x86_64-linux-gnu/libpthread-2.23.so
+7f6ab21be000-7f6ab21bf000 r--p 00017000 08:01 4851445                    /lib/x86_64-linux-gnu/libpthread-2.23.so
+7f6ab21bf000-7f6ab21c0000 rw-p 00018000 08:01 4851445                    /lib/x86_64-linux-gnu/libpthread-2.23.so
+7f6ab21c0000-7f6ab21c4000 rw-p 00000000 00:00 0
+7f6ab21c4000-7f6ab22cc000 r-xp 00000000 08:01 4851382                    /lib/x86_64-linux-gnu/libm-2.23.so
+7f6ab22cc000-7f6ab24cb000 ---p 00108000 08:01 4851382                    /lib/x86_64-linux-gnu/libm-2.23.so
+7f6ab24cb000-7f6ab24cc000 r--p 00107000 08:01 4851382                    /lib/x86_64-linux-gnu/libm-2.23.so
+7f6ab24cc000-7f6ab24cd000 rw-p 00108000 08:01 4851382                    /lib/x86_64-linux-gnu/libm-2.23.so
+7f6ab24cd000-7f6ab24f3000 r-xp 00000000 08:01 4851439                    /lib/x86_64-linux-gnu/ld-2.23.so
+7f6ab26c2000-7f6ab26c7000 rw-p 00000000 00:00 0
+7f6ab26ec000-7f6ab26ed000 rw-p 00000000 00:00 0
+7f6ab26ed000-7f6ab26f0000 r--p 00000000 00:00 0                          [vvar]
+7f6ab26f0000-7f6ab26f2000 r-xp 00000000 00:00 0                          [vdso]
+7f6ab26f2000-7f6ab26f3000 r--p 00025000 08:01 4851439                    /lib/x86_64-linux-gnu/ld-2.23.so
+7f6ab26f3000-7f6ab26f4000 rw-p 00026000 08:01 4851439                    /lib/x86_64-linux-gnu/ld-2.23.so
+7f6ab26f4000-7f6ab26f5000 rw-p 00000000 00:00 0
+7ffddf9ca000-7ffddf9ee000 rw-p 00000000 00:00 0                          [stack]
+ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
+Abortado (`core' generado)
