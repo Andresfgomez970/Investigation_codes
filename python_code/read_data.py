@@ -94,17 +94,70 @@ class Header:
         else:
             return value.replace('\r', '').strip()
 
+    def name_and_parameter(self, n_lines, i_line, lines):
+        return lines[i_line][0] == '#' and ((i_line < n_lines - 2 and lines[i_line + 2][0] == '#') or i_line == n_lines - 2)
+
+    def name_with_range(self, n_lines, i_line, lines):
+        return (i_line < n_lines - 3 and is_number(lines[i_line + 1]) and is_number(lines[i_line + 2])) 
+
+    def param_with_value(self, n_lines, i_line, lines):
+        return (i_line < n_lines - 2 and is_number(lines[i_line + 1])) 
+
     def to_json(self):
         header_string = self.read_header()
         # print(header_string)
         header_json = {}
-        lines = header_string.split('\n')
-        print(lines)
+        lines = header_string.split('\n')[:-1]  # -1 to remove last blank character 
         for i_line in range(len(lines)):
-            # print(i_line, len(lines) - 1, i_line < len(lines) - 2)# , (i_line < len(lines) - 1 and lines[i_line + 2][0] == '#'))
-            # if lines[i_line][0] == '#' and ((i_line < len(lines) - 2 and lines[i_line + 2][0] == '#') or i_line == len(lines) - 2): 
-            #     name = lines[i_line].replace('-', '').replace('#', '').strip()
-            #     header_json[name] = self.parse_value(lines[i_line + 1])
+            if self.name_and_parameter(len(lines), i_line, lines):
+                name = lines[i_line].replace('-', '').replace('#', '').strip()
+                header_json[name] = self.parse_value(lines[i_line + 1])
+
+            elif lines[i_line][0] == '#':
+                # create dictionary with name of function
+                name = lines[i_line].replace('-', '').replace('#', '').strip()
+                header_json[name] = {}
+                # add all its ranges and parameters
+                in_function_reading = True
+                local_actual_line = i_line
+                while in_function_reading:
+                    local_actual_line += 1
+                    if local_actual_line >= len(lines) or lines[local_actual_line] == '#': in_function_reading = False
+                    
+                    if self.name_with_range(len(lines), local_actual_line, lines):
+                        while local_actual_line < len(lines) or lines[local_actual_line] != '#': 
+                            if header_json[name] == {}:   
+                                param_name = lines[local_actual_line].replace('-', '').replace('#', '').strip()
+                                header_json[name]['param_names'] = [param_name]
+                                header_json[name]['val_0'] = [self.parse_value(lines[local_actual_line + 1])]
+                                header_json[name]['val_f'] = [self.parse_value(lines[local_actual_line + 2])]
+                            else:
+                                param_name = lines[local_actual_line].replace('-', '').replace('#', '').strip()
+                                header_json[name]['param_names'].append(param_name)
+                                header_json[name]['val_0'].append(self.parse_value(lines[local_actual_line + 1]))
+                                header_json[name]['val_f'].append(self.parse_value(lines[local_actual_line + 2]))
+                            local_actual_line += 2
+                    
+                    
+                    
+                    elif self.param_with_value(len(lines), local_actual_line, lines):
+                        if header_json[name] == {}:   
+                            param_name = lines[local_actual_line].replace('-', '').replace('#', '').strip()
+                            header_json[name]['param_names'] = [param_name]
+                            header_json[name]['values'] = [self.parse_value(lines[local_actual_line + 1])]
+                        else:
+                            param_name = lines[local_actual_line].replace('-', '').replace('#', '').strip()
+                            header_json[name]['param_names'].append(param_name)
+                            header_json[name]['values'].append(self.parse_value(lines[local_actual_line + 1]))
+                        local_actual_line += 1
+                    else:
+                        add_info = lines[local_actual_line].replace('-', '').replace('#', '').strip()
+                        header_json[name][add_info] = self.parse_value(lines[local_actual_line + 1])
+
+
+
+        print(header_string)
+        print(header_json)
 
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
