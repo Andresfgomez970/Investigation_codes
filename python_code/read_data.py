@@ -69,13 +69,10 @@ class Header:
                 self.binary_file = self.read_file()
                 return n_lines
 
-
-
-
     def read_header(self):
         header, actual_line = '', 0
         n_lines = self.lines_of_header() - 2
-        while actual_line < n_lines:
+        while actual_line < n_line  s:
             c = self.binary_file.read(1)
             header += c.decode('UTF-8')
             if c == '\n': print(c == '\n', c)
@@ -86,8 +83,9 @@ class Header:
 
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
-
-    # print(Header(name).read_header())
+    text_file = open("data.txt", "w")
+    text_file.write(Header(name).read_header())
+    text_file.close()
     # print(read_header(name))
     # print(read_header(name))
     # header, data = get_data(name)
