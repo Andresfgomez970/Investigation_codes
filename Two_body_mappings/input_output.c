@@ -9,7 +9,7 @@ input
   M: matrix cotained in a one dimensional array
   columns: number of columns
   rows: number of rows
-output:
+output
   matrix in the terminal as output
 
 This routine is designed in order to print a 2D matrrix that is saved in
@@ -38,8 +38,17 @@ int PrintMatrixArray(const double *const M, const int columns, const int rows)
   return 0;
 }
 
-/* This routine put the pointer that reads the file (ptr_input_file) in its
-  n-th line */
+/*
+input
+  ptr_input_file: pointer of file that is being read
+  n: line to locate buffer (file pointer) in the file
+
+result 
+  buffer (ptr_input_file) with the location in specified line 
+
+This routine put the pointer that reads the file (ptr_input_file) in its
+  n-th line
+*/
 int GoToFileLine(FILE *ptr_input_file, const int n)
 {
   // Defined to count lines
@@ -65,7 +74,8 @@ int GoToFileLine(FILE *ptr_input_file, const int n)
   return 0;
 }
 
-/* This routine go to the n-th line and save the value in the */
+/* This routine go to the n-th line and use the value in the multi purpose 
+  pointer ptr to mkake it point to the value*/
 int ValueInLineN(FILE *ptr_input_file, const char *const format, void *ptr,
                  const int n)
 {
