@@ -142,9 +142,9 @@ class Header:
         return lines[i_line][0] != '#' and '--' in lines[i_line]
 
     def add_mapping_variable_info(self, i_line, lines, header_json):
-        header_json = self.add_to_mapping_function_list(i_line, lines, header_json, 'mapping_variable_names')
-        header_json = self.add_to_mapping_function_list(i_line + 1, lines, header_json, 'mapping_variable_val0')
-        header_json = self.add_to_mapping_function_list(i_line + 2, lines, header_json, 'mapping_variable_valf')
+        header_json = self.add_to_mapping_function_list(i_line, lines, header_json, 'mapping_variables_names')
+        header_json = self.add_to_mapping_function_list(i_line + 1, lines, header_json, 'mapping_variables_val0')
+        header_json = self.add_to_mapping_function_list(i_line + 2, lines, header_json, 'mapping_variables_valf')
         return header_json
 
     def add_mapping_parameter_info(self, i_line, lines, header_json):
@@ -182,11 +182,11 @@ class Header:
                 header_json = self.update_mapping_functions(i_line, lines, header_json)
                 i_line += 1
                 # read until the max value of the current function
-                self.add_new_mapping_functions_list(header_json, 'mapping_variable_names')
+                self.add_new_mapping_functions_list(header_json, 'mapping_variables_names')
                 
-                self.add_new_mapping_functions_list(header_json, 'mapping_variable_val0')
-                self.add_new_mapping_functions_list(header_json, 'mapping_variable_valf')
-                self.add_new_mapping_functions_list(header_json, 'mapping_functions_max_value')
+                self.add_new_mapping_functions_list(header_json, 'mapping_variables_val0')
+                self.add_new_mapping_functions_list(header_json, 'mapping_variables_valf')
+                self.add_new_mapping_functions_list(header_json, 'mapping_functions_max_values')
 
                 self.add_new_mapping_functions_list(header_json, 'mapping_parameters_names')
                 self.add_new_mapping_functions_list(header_json, 'mapping_parameters_values')
@@ -200,7 +200,7 @@ class Header:
                         header_json = self.add_mapping_parameter_info(i_line, lines, header_json)
                         i_line += 2
                 if i_line < len(lines) and self.parse_value(lines[i_line]) == 'max_value':
-                    header_json = self.add_to_mapping_function_list(i_line + 1, lines, header_json, 'mapping_functions_max_value')
+                    header_json = self.add_to_mapping_function_list(i_line + 1, lines, header_json, 'mapping_functions_max_values')
                     i_line += 2
 
             elif self.name_of_function(i_line, lines):
@@ -212,12 +212,9 @@ class Header:
                     header_json = self.read_param_and_value(i_line, lines, header_json, func_type + '_param')
                     i_line += 2
 
-        print(header_string)
-        print(header_json)
-
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
-    # name = "../data/wetzel/WetzelrminFixedSimple1.dat"
+    name = "../data/wetzel/WetzelrminFixedSimple1.dat"
     print(Header(name).to_json())
 
     # print(read_header(name))
