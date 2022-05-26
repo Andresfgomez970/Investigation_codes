@@ -1,8 +1,8 @@
 {
-    "total_config": 10000,
-    "n_points" : 1000, 
+    "total_config": 10,
+    "n_points" : 10, 
     "j_0": 0,
-    "out_filename": "data/defaults/DefaultQuirogaUniform.dat",
+    "out_filename": "data/defaults/DefaultQuirogaUniformExample.dat",
     "methodology": "Rejection",
     "n_dim" : 6, 
     "variables_name" : ["rmin", "f", "e", "w", "i", "W"],

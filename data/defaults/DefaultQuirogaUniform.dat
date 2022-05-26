@@ -1,7 +1,7 @@
 #FixHeaderLen(bytes)----------                                                                      
       3121
 #FixNumberOfLines----------                                                                         
-        53
+        51
 #Namefile----------                                                                                 
 data/defaults/DefaultQuirogaUniform.dat                                                             
 #Method------------                                                                                 
@@ -10,7 +10,7 @@ Rejection
                10000
 #Nvar--------------                                                                                 
          6
-U0------------                                                                                      
+#U0------------                                                                                     
 #rmin--                                                                                             
                0
                5
