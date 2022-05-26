@@ -381,7 +381,6 @@ int MontecarloStrcuturesConstrainedSampleGetNPoints(FILE * ptr_output_file,
     if(constrain_info->ConstrainF(constrain_info->param_constrain, x)){
       l++;
       j++;
-      printf("------------------%ld", j);
     }
 
     if (l == run_info->n_points){
