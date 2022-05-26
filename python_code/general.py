@@ -835,7 +835,9 @@ def fist_analysis():
 
 
 def main():
-    fist_analysis()
+    print()
+
+    # fist_analysis()
     #####
     # Plot correlation map of rmin_size20 for Quiroga
 

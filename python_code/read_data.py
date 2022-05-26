@@ -6,51 +6,6 @@ from regex import D
 from utils import *
 
 DOUBLE_SIZE = 8
-
-###############################################################################
-# input output functions
-###############################################################################
-def get_data(name):
-    """
-    This function will read the default binary format saved by the MontecarloStrcuturesConstrainedSampleGetNPointsFromFile
-        function. In short: the header specifies the conditions in which the sample was taken. After that, the values for
-        the orbital parameters accompanied by the distance to the observables ["r", "f", "e", "w", "i", "W", "d"] are 
-        written continuously. 
-    """
-    # read header param and real size
-    with open(name, "rb") as binary_file:
-        # Read the header to skipt it
-        header = ''
-        n_lines = 1
-        while(n_lines < 13):
-            c = binary_file.read(1)
-            if (c == b'\n'):
-                n_lines += 1
-            if (n_lines == 2):
-                n_bytes_header = int(binary_file.read(10))
-            elif (n_lines == 10):
-                npoints = int(binary_file.read(20))
-            elif(n_lines == 12):
-                ndim = int(binary_file.read(10)) + 1
-
-    with open(name, "rb") as binary_file:
-        # Read the header to skipt it
-        couple_bytes = binary_file.read(n_bytes_header)
-        # Try to read npoints * ndim * DOUBLE_SIZE bytes
-        size = len(binary_file.read(npoints * ndim * DOUBLE_SIZE))
-
-    with open(name, "rb") as binary_file:
-        # Read the header to skipt it
-        couple_bytes = binary_file.read(n_bytes_header)
-        couple_bytes = binary_file.read(size)
-        if (len(couple_bytes) != npoints * ndim * 8):
-            print("Expected size: %d, but input size: %d in %s" %
-                  (npoints * ndim * 8, size, name))
-            npoints = size // (ndim * 8)
-        data = np.array(struct.unpack('d' * npoints * ndim,
-                                      couple_bytes)).reshape(npoints, ndim)
-    return header, data
-
 class Header:
     def __init__(self, filename):
         self.filename = filename
@@ -62,9 +17,6 @@ class Header:
 
     def read_file(self):
         return open(self.filename, "rb")
-
-    def next_character(self):
-        pass
 
     def lines_of_header(self):
         # set up file from the beginning again
@@ -166,9 +118,16 @@ class Header:
             header_json[name_dict][name] = param_value
         return header_json
 
+    def correct_os_characters(self, header_json):
+        header_string = self.read_header()
+        if header_string.split('\n')[:-1][0][-1] == '\r':
+            header_json['FixHeaderLen(bytes)'] = int(header_json['FixHeaderLen(bytes)']) 
+            header_json['FixHeaderLen(bytes)'] += int(header_json['FixNumberOfLines']) 
+
+        return header_json
+
     def to_json(self):
         header_string = self.read_header()
-        # print(header_string)
         header_json = {}
         lines = header_string.split('\n')[:-1]  # -1 to remove last blank character 
         i_line = 0
@@ -199,6 +158,7 @@ class Header:
                     elif self.name_of_mapping_parameter(i_line, lines):
                         header_json = self.add_mapping_parameter_info(i_line, lines, header_json)
                         i_line += 2
+
                 if i_line < len(lines) and self.parse_value(lines[i_line]) == 'max_value':
                     header_json = self.add_to_mapping_function_list(i_line + 1, lines, header_json, 'mapping_functions_max_values')
                     i_line += 2
@@ -212,10 +172,56 @@ class Header:
                     header_json = self.read_param_and_value(i_line, lines, header_json, func_type + '_param')
                     i_line += 2
 
+        self.additional_functions_read = 0
+        self.before_constrain_msg = True
+        self.correct_os_characters(header_json)
+
+        return header_json
+
+class File(Header):
+    def __init__(self, filename):
+        super().__init__(filename) 
+
+    ###############################################################################
+    # input output functions
+    ###############################################################################
+    def get_data(self):
+        """
+        This function will read the default binary format saved by the MontecarloStrcuturesConstrainedSampleGetNPointsFromFile
+            function. In short: the header specifies the conditions in which the sample was taken. After that, the values for
+            the orbital parameters accompanied by the distance to the observables ["r", "f", "e", "w", "i", "W", "d"] are 
+            written continuously. 
+        """
+        # make this to check a possible incomplete files
+        json_header = self.to_json()
+        ndim = json_header['Nvar'] + 1
+        npoints = json_header['Npoints']
+        with open(self.filename, "rb") as binary_file:
+            # Read the header to skipt it
+            couple_bytes = binary_file.read(json_header['FixHeaderLen(bytes)'])
+            # Try to read npoints * ndim * DOUBLE_SIZE bytes
+            size = len(binary_file.read(npoints * ndim * DOUBLE_SIZE))
+
+        with open(self.filename, "rb") as binary_file:
+            # Read the header to skipt it
+            couple_bytes = binary_file.read(json_header['FixHeaderLen(bytes)'])
+            couple_bytes = binary_file.read(size)
+            if (len(couple_bytes) != npoints * ndim * 8):
+                print("Expected size: %d, but input size: %d in %s" %
+                    (npoints * ndim * 8, size, self.filename))
+                npoints = size // (ndim * 8)
+            data = np.array(struct.unpack('d' * npoints * ndim,
+                                        couple_bytes)).reshape(npoints, ndim)
+        return json_header, data
+
+
 if __name__ == '__main__':
     name = "../data/defaults/DefaultLauraUniform.dat"
-    name = "../data/wetzel/WetzelrminFixedSimple1.dat"
-    print(Header(name).to_json())
+    name = "../data/defaults/DefaultQuiroga1M.dat"
+
+    file = File(name)
+    data = file.get_data()
+    print(data)
 
     # print(read_header(name))
     # print(read_header(name))
