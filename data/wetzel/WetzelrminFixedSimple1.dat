@@ -1,7 +1,7 @@
 #FixHeaderLen(bytes)----------                                                                      
       6374
 #FixNumberOfLines----------                                                                         
-       106
+       104
 #Namefile----------                                                                                 
 data/wetzel/WetzelrminFixedSimple1.dat                                                              
 #Method------------                                                                                 
@@ -10,7 +10,7 @@ Rejection
               100000
 #Nvar--------------                                                                                 
          6
-WetzelrminFixed------------                                                                         
+#WetzelrminFixed------------                                                                        
 #rmin--                                                                                             
                0
              100
@@ -36,7 +36,7 @@ Mhost--
     780000000000
 max_value                                                                                           
  4.3112065166989
-Constant------------                                                                                
+#Constant------------                                                                               
 #f--                                                                                                
                0
 6.28318530717959
@@ -44,7 +44,7 @@ None--
                0
 max_value                                                                                           
                1
-WetzeleFixed------------                                                                            
+#WetzeleFixed------------                                                                            
 #e--                                                                                                
                0
                1
@@ -70,7 +70,7 @@ Mhost--
     780000000000
 max_value                                                                                           
  6.0532114528298
-Constant------------                                                                                
+#Constant------------                                                                               
 #w--                                                                                                
                0
 6.28318530717959
