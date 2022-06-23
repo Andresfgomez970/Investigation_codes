@@ -1,5 +1,5 @@
 {
-    "total_config": 1000,
+    "total_config": 10000,
     "n_points" : 1000, 
     "j_0": 0,
     "out_filename": "Quiroga_system_test1000_2.dat",

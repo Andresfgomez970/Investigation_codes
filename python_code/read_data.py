@@ -7,6 +7,9 @@ from utils import *
 
 DOUBLE_SIZE = 8
 class Header:
+    """
+    Class to read header of the file where the samples is stored and reaturn the header information in a json format.
+    """
     def __init__(self, filename):
         self.filename = filename
         self.binary_file = self.read_file()
@@ -216,16 +219,12 @@ class File(Header):
 
 
 if __name__ == '__main__':
-    name = "../data/defaults/DefaultLauraUniform.dat"
-    name = "../data/defaults/DefaultQuiroga1M.dat"
+    # name = "../data/defaults/DefaultLauraUniform.dat"
+    # name = "../data/defaults/DefaultQuiroga1M.dat"
+    name = "../data/defaults/DefaultQuirogaUniformExample.dat"
 
     file = File(name)
-    data = file.get_data()
-    print(data)
-
-    # print(read_header(name))
-    # print(read_header(name))
-    # header, data = get_data(name)
-    # print(header)
-    # df = pd.DataFrame(data, columns=["r", "f", "e", "w", "i", "W", "d"])
-    # print(df)
+    header, data = file.get_data()
+    print(header)
+    df = pd.DataFrame(data, columns=["r", "f", "e", "w", "i", "W", "d"])
+    print(df)
