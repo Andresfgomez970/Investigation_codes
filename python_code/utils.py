@@ -15,3 +15,12 @@ def is_float(value):
 
 def is_number(value):
   return is_float(value) or is_int(value)
+
+
+def smaller_divisor_and_remainder(x):
+    divisor = 2
+    while divisor <= x:
+        if x % divisor == 0:
+            return divisor, int(x / divisor)
+        divisor += 1
+    return 1, x

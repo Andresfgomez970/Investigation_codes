@@ -221,7 +221,8 @@ class File(Header):
 if __name__ == '__main__':
     # name = "../data/defaults/DefaultLauraUniform.dat"
     # name = "../data/defaults/DefaultQuiroga1M.dat"
-    name = "../data/defaults/DefaultQuirogaUniformExample.dat"
+    # name = "../data/defaults/DefaultQuirogaUniformExample.dat"
+    name = "../Quiroga_system_test1000_2.dat"
 
     file = File(name)
     header, data = file.get_data()
