@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import re
 import os
 import read_data as rd
+import math
 from utils import *
 
 class MarginalAnalizer():
@@ -11,24 +12,18 @@ class MarginalAnalizer():
         file = rd.File(filename)
         self.header, self.data = file.get_data()
         # TODO: make this to happen only when things are plotted 
-        self.one_dim_axes = self.setup_one_dim_axes()
-        # self.two_dim_axes = self.setup_two_dim_axes()
+        self.one_dim_axes = self.axes_for_margin_of_dim(1)
+        # self.two_dim_axes = self.axes_for_margin_of_dim(2)
         # TODO: implement optional paramaters by file
         self.opt_params = opt_params
 
-    # functions to calculate number of graphs given the dimension of marginalization
-    def n_one_dim_graphs(self):
-        return int(self.header['Nvar'])
+    # functions to calculate number of graphs and initialize axes
+    def number_plots_for_margin_of_dim(self, dimension):
+        return math.comb(self.header['Nvar'], dimension)
 
-    def n_two_dim_graphs(self):
-        return int(self.header['Nvar'] * (self.header['Nvar'] - 1) / 2)
-
-    def setup_one_dim_axes(self):
-        return self.setup_figure_axes(self.n_one_dim_graphs())
-
-    def setup_two_dim_axes(self):
-        return self.setup_figure_axes(self.n_two_dim_graphs())
-
+    def axes_for_margin_of_dim(self, dim):
+        return self.setup_figure_axes(self.number_plots_for_margin_of_dim(dim))
+    
     # Function to initialize the figure and axes for a given number of graphs n_total
     def setup_figure_axes(self, n_total, title_is_assigned=1):
         fig = plt.figure(figsize=(20, 10))
@@ -67,15 +62,13 @@ class MarginalAnalizer():
             self.one_dim_axes[i].bar(x_random, p, align='center', width=w,
                                      edgecolor='black', facecolor='blue', alpha=0.5)
 
-            # Set the title one time
-            if not self.title_is_assigned: 
-                self.one_dim_axes[i].set_title(self.obtain_pretty_variable_name(i))
+            ## Pretify graph
+            # titles
+            self.one_dim_axes[i].set_title(self.obtain_pretty_variable_name(i))
 
-            # implement for wetzel case
+            # limits
             min_v, max_v = self.header['mapping_variables_val0'][0][i], self.header['mapping_variables_valf'][0][i]
-            # self.one_dim_axes[i].set_xlim(min_v, max_v)
-        
-        self.title_is_assigned = True
+            self.one_dim_axes[i].set_xlim(min_v, max_v)
 
 
     def two_dimensional_plot(self):
