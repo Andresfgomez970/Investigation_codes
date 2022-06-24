@@ -6,16 +6,10 @@ import os
 import read_data as rd
 import math
 from utils import *
-
-class MarginalAnalizer():
-    def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
+class BaseMarginalAnalizer():
+    def __init__(self, filename):
         file = rd.File(filename)
         self.header, self.data = file.get_data()
-        # TODO: make this to happen only when things are plotted 
-        self.one_dim_axes = self.axes_for_margin_of_dim(1)
-        # self.two_dim_axes = self.axes_for_margin_of_dim(2)
-        # TODO: implement optional paramaters by file
-        self.opt_params = opt_params
 
     # functions to calculate number of graphs and initialize axes
     def number_plots_for_margin_of_dim(self, dimension):
@@ -38,19 +32,24 @@ class MarginalAnalizer():
 
         return axes
 
-    def consturct_one_dim_histogram(self, data):
-        n_bins = int(self.header['Npoints'] ** (1 / 3.))
-        p, edges = np.histogram(data, n_bins)
-        x_random = (edges[1:] + edges[:-1]) / 2
-        w = (data.max() - data.min()) / n_bins
-        return x_random, p, w
-
     def obtain_pretty_variable_name(self, i):
         variable_names = np.array(self.header['mapping_variables_names']).flatten()
         if self.opt_params.get('pretifier_variable_names') is None:
             return variable_names[i]
         else:
             return self.opt_params['pretifier_variable_names'][variable_names[i]]
+
+class OneDimensionalAnalizer(BaseMarginalAnalizer):
+    def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
+        super().__init__(filename, opt_params)
+        self.one_dim_axes = self.axes_for_margin_of_dim(1)
+
+    def consturct_one_dim_histogram(self, data):
+        n_bins = int(self.header['Npoints'] ** (1 / 3.))
+        p, edges = np.histogram(data, n_bins)
+        x_random = (edges[1:] + edges[:-1]) / 2
+        w = (data.max() - data.min()) / n_bins
+        return x_random, p, w
 
     # functions for the different marginalizations
     def one_dimensional_plot(self):
@@ -70,6 +69,10 @@ class MarginalAnalizer():
             min_v, max_v = self.header['mapping_variables_val0'][0][i], self.header['mapping_variables_valf'][0][i]
             self.one_dim_axes[i].set_xlim(min_v, max_v)
 
+class TwoDimensionalAnalizer(BaseMarginalAnalizer):
+    def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
+        super().__init__(filename, opt_params)
+        self.two_dim_axes = self.axes_for_margin_of_dim(2)
 
     def two_dimensional_plot(self):
         c = 0
@@ -82,10 +85,9 @@ class MarginalAnalizer():
 def main():
     name = "../Quiroga_system_test1000_2.dat"    
     opt_params= {"pretifier_variable_names" : {'rmin': 'q', 'f': 'ν', 'e': 'e', 'i': 'i', 'w': 'ω', 'W' : 'Ω'}}
-    analyzer = MarginalAnalizer(name, opt_params)
+    analyzer = OneDimensionalAnalizer(name, opt_params)
     analyzer.one_dimensional_plot()
     plt.show()
-
 
 if __name__ == '__main__':
     main()
