@@ -1,3 +1,5 @@
+import numpy as np
+
 def is_int(value):
   try:
     int(value)
@@ -24,3 +26,7 @@ def smaller_divisor_and_remainder(x):
             return divisor, int(x / divisor)
         divisor += 1
     return 1, x
+
+
+def arr(x):
+  return np.array(x)

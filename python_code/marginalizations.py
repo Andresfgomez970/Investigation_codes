@@ -41,8 +41,9 @@ class BaseMarginalAnalizer():
 
 class OneDimensionalAnalizer(BaseMarginalAnalizer):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
-        super().__init__(filename, opt_params)
+        super().__init__(filename)
         self.one_dim_axes = self.axes_for_margin_of_dim(1)
+        self.opt_params = opt_params
 
     def consturct_one_dim_histogram(self, data):
         n_bins = int(self.header['Npoints'] ** (1 / 3.))
@@ -55,7 +56,7 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
     def one_dimensional_plot(self):
         plt.suptitle("One dimensional marginal distribution")
 
-        for i in range(self.header['Nvar']):
+        for i in range(self.header['Nvar']):            
             # Plot histogram 
             x_random, p, w = self.consturct_one_dim_histogram(self.data[:, i])
             self.one_dim_axes[i].bar(x_random, p, align='center', width=w,
@@ -67,12 +68,17 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
 
             # limits
             min_v, max_v = self.header['mapping_variables_val0'][0][i], self.header['mapping_variables_valf'][0][i]
-            self.one_dim_axes[i].set_xlim(min_v, max_v)
+            min_v, max_v = min([float(min_v), x_random.min()]), min([float(max_v), x_random.max()])  
+            self.one_dim_axes[i].set_xlim( min_v, max_v + w)
+
+            
 
 class TwoDimensionalAnalizer(BaseMarginalAnalizer):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
-        super().__init__(filename, opt_params)
+        super().__init__(filename)
         self.two_dim_axes = self.axes_for_margin_of_dim(2)
+        self.opt_params = opt_params
+
 
     def two_dimensional_plot(self):
         c = 0
