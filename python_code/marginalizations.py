@@ -20,17 +20,19 @@ class BaseMarginalAnalizer():
     
     # Function to initialize the figure and axes for a given number of graphs n_total
     def setup_figure_axes(self, n_total, title_is_assigned=1):
-        fig = plt.figure(figsize=(20, 10))
-
         # calculate the number of columns and rows for the subplots
         columns, rows = smaller_divisor_and_remainder(n_total)
+
+        max_height = 9.8
+
+        fig = plt.figure(figsize=(max_height * columns / rows, max_height))
 
         # add all labels defined positions
         axes = []
         for i in range(n_total):
             axes.append(fig.add_subplot(rows, columns, i + 1))
 
-        return axes
+        return fig, axes
 
     def obtain_pretty_variable_name(self, i):
         variable_names = np.array(self.header['mapping_variables_names']).flatten()
@@ -39,10 +41,16 @@ class BaseMarginalAnalizer():
         else:
             return self.opt_params['pretifier_variable_names'][variable_names[i]]
 
+    def limits_for_single_file(self, x_values, width, i):
+        min_v, max_v = self.header['mapping_variables_val0'][0][i], self.header['mapping_variables_valf'][0][i]
+        min_v = max([float(min_v), (x_values - width / 2).min()])
+        max_v = min([float(max_v), (x_values + width / 2).max()])  
+        return min_v, max_v
+
 class OneDimensionalAnalizer(BaseMarginalAnalizer):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
         super().__init__(filename)
-        self.one_dim_axes = self.axes_for_margin_of_dim(1)
+        self.one_dim_fig, self.one_dim_axes = self.axes_for_margin_of_dim(1)
         self.opt_params = opt_params
 
     def consturct_one_dim_histogram(self, data):
@@ -54,7 +62,9 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
 
     # functions for the different marginalizations
     def one_dimensional_plot(self):
-        plt.suptitle("One dimensional marginal distribution")
+        plt.suptitle("One dimensional marginal distribution \n for " + self.opt_params['system_name'], 
+                     fontsize=20)
+
 
         for i in range(self.header['Nvar']):            
             # Plot histogram 
@@ -64,19 +74,30 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
 
             ## Pretify graph
             # titles
-            self.one_dim_axes[i].set_title(self.obtain_pretty_variable_name(i))
+            variable_name = self.obtain_pretty_variable_name(i)
+            self.one_dim_axes[i].set_title(variable_name + " Histogram",
+                                           fontweight='bold')
+
+            # labels
+            self.one_dim_axes[i].set_xlabel(variable_name)
+            self.one_dim_axes[i].set_ylabel('N(' + variable_name + ')')
 
             # limits
-            min_v, max_v = self.header['mapping_variables_val0'][0][i], self.header['mapping_variables_valf'][0][i]
-            min_v, max_v = min([float(min_v), x_random.min()]), min([float(max_v), x_random.max()])  
-            self.one_dim_axes[i].set_xlim( min_v, max_v + w)
+            min_v, max_v = self.limits_for_single_file(x_random, w, i)
+            self.one_dim_axes[i].set_xlim(min_v, max_v)
 
-            
+        self.one_dim_fig.tight_layout()
+        self.one_dim_fig.subplots_adjust(top=0.86)
+
+        # save image to file
+        self.one_dim_fig.savefig(self.opt_params['system_name'] + '_ond_dim_histogram.png')
+
+
 
 class TwoDimensionalAnalizer(BaseMarginalAnalizer):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
         super().__init__(filename)
-        self.two_dim_axes = self.axes_for_margin_of_dim(2)
+        self.two_dim_fig, self.two_dim_axes = self.axes_for_margin_of_dim(2)
         self.opt_params = opt_params
 
 
@@ -90,7 +111,8 @@ class TwoDimensionalAnalizer(BaseMarginalAnalizer):
 
 def main():
     name = "../Quiroga_system_test1000_2.dat"    
-    opt_params= {"pretifier_variable_names" : {'rmin': 'q', 'f': 'ν', 'e': 'e', 'i': 'i', 'w': 'ω', 'W' : 'Ω'}}
+    opt_params= {"pretifier_variable_names" : {'rmin': 'q', 'f': 'ν', 'e': 'e', 'i': 'i', 'w': 'ω', 'W' : 'Ω'},
+                 "system_name" : "AM 2229-735"}
     analyzer = OneDimensionalAnalizer(name, opt_params)
     analyzer.one_dimensional_plot()
     plt.show()
