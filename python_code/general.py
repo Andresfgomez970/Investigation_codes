@@ -864,7 +864,7 @@ def main():
     # Sizes analysis
     # correlations_different_sizes()
 
-    # name = "../data/rmin_sizes/quiroga/quiroga/rmin_max100.dat"
+    name = "../data/rmin_sizes/quiroga/quiroga/rmin_max100.dat"
     # four_regions_division_in_progress(name)
 
     # make_all_histograms()
@@ -874,7 +874,7 @@ def main():
 
     # correlations_symmetry_regions(name)
 
-    # plot_correlation_map_from_file(name)
+    plot_correlation_map_from_file(name)
 
     # tareas()
     pass
