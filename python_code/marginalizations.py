@@ -58,7 +58,7 @@ class BaseMarginalPlotter():
     def adjust_correct_proportions(self, fig):
         # Adjust correct proportions
         fig.tight_layout()
-        fig.subplots_adjust(top=self.opt_params['top_title'])
+        fig.subplots_adjust(top=self.opt_params['top_title'])        
 
 class OneDimensionalPlotter(BaseMarginalPlotter):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
@@ -152,8 +152,7 @@ class TwoDimensionalPlotter(BaseMarginalPlotter):
         clb = self.two_dim_fig.colorbar(img, ax=self.two_dim_axes[c])
         clb.ax.tick_params(labelsize=8)
 
-    def add_default_style_to_2d_hist(self, xed, yed, img, c, i, j):
-        ## Pretify graph
+    def add_names_to_plots(self, xed, yed, c, i, j):
         # add title
         variable_name_i = self.obtain_pretty_variable_name(i)
         variable_name_j = self.obtain_pretty_variable_name(j)
@@ -168,10 +167,15 @@ class TwoDimensionalPlotter(BaseMarginalPlotter):
         # limits and sizes of ticks
         self.add_limits(xed, yed, i, j, c)
 
+
+    def add_default_style_to_2d_hist(self, xed, yed, img, c, i, j):
+        ## Pretify graph
+        self.add_names_to_plots(xed, yed, c, i, j)
+
         # add color bar
         self.add_bar(img, c)
 
-    def two_dimensional_plot(self):
+    def two_dimensional_hitogram_plot(self):
         plt.suptitle("Two Dimensional Marginal Distribution \n for " + self.opt_params['system_name'], 
                 fontsize=14, y=0.99)
 
@@ -190,6 +194,31 @@ class TwoDimensionalPlotter(BaseMarginalPlotter):
 
         self.two_dim_fig.savefig(self.opt_params['system_name'] + '_two_dim_histogram.svg')
 
+    def add_each_correlation_subplot(self, c, i, j):
+        x, y = self.data[:, i], self.data[:, j]
+        self.two_dim_axes[c].plot(x, y, '.', ms=self.opt_params.get('ms', 0.1))
+        return x, y
+
+    def two_dimensional_correlation_plot(self, save=True):
+        plt.suptitle("Correlation for " + self.opt_params['system_name'], 
+                fontsize=14, y=0.99)
+
+        c = 0
+        for i in range(self.header['Nvar']):
+            for j in range(i + 1, self.header['Nvar']):
+                # add each histogram
+                x, y = self.add_each_correlation_subplot(c, i, j)
+
+                # add style to each 2dhistogram
+                self.add_names_to_plots(x, y, c, i, j)
+
+                c += 1
+
+        self.adjust_correct_proportions(self.two_dim_fig)
+
+        if save:
+            self.two_dim_fig.savefig(self.opt_params['system_name'] + '_two_dim_corrlations.svg')
+
 
 # Below here all is an example of how to use the classes
 def one_dimensional_plot(name):
@@ -200,21 +229,32 @@ def one_dimensional_plot(name):
     analyzer.one_dimensional_plot()
     plt.show()
 
-def two_dimensional_plot(name):
+def two_dimensional_histogram_plot(name):
     opt_params= {"pretifier_variable_names" : {'rmin': 'q', 'f': 'ν', 'e': 'e', 'i': 'i', 'w': 'ω', 'W' : 'Ω'},
                  "system_name" : "AM 2229-735",
                  "top_title" : 0.92,
                  "with-title" : False}
     analyzer = TwoDimensionalPlotter(name, opt_params)
-    analyzer.two_dimensional_plot()
+    analyzer.two_dimensional_hitogram_plot()
+    plt.show()
+
+def two_dimensional_correlation_plot(name):
+    opt_params= {"pretifier_variable_names" : {'rmin': 'q', 'f': 'ν', 'e': 'e', 'i': 'i', 'w': 'ω', 'W' : 'Ω'},
+                 "system_name" : "AM 2229-735",
+                 "top_title" : 0.92,
+                 "with-title" : False,
+                 "ms" : 0.1 
+                 }
+    analyzer = TwoDimensionalPlotter(name, opt_params)
+    analyzer.two_dimensional_correlation_plot(save=False)
     plt.show()
 
 
 def main():
     name = "../Quiroga_system_test1000_2.dat"    
     one_dimensional_plot(name)
-    two_dimensional_plot(name)
-
+    two_dimensional_histogram_plot(name)
+    two_dimensional_correlation_plot(name)
 
 if __name__ == '__main__':
     main()

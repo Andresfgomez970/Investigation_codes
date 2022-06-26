@@ -103,7 +103,5 @@ def main():
     one_dimensional_plot(name)
 
 
-
-
 if __name__ == '__main__':
     main()
