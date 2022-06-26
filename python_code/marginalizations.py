@@ -6,10 +6,14 @@ import os
 import read_data as rd
 import math
 from utils import *
-class BaseMarginalAnalizer():
+class BaseMarginalPlotter():
     def __init__(self, filename):
         file = rd.File(filename)
         self.header, self.data = file.get_data()
+        # define min values for the possibility of multiple plotting
+        self.min_val = np.ones(self.header['Nvar']) * np.inf
+        self.max_val = np.ones(self.header['Nvar']) * np.inf * -1
+
 
     # functions to calculate number of graphs and initialize axes
     def number_plots_for_margin_of_dim(self, dimension):
@@ -43,16 +47,20 @@ class BaseMarginalAnalizer():
 
     def limits_for_single_file(self, x_values, width, i):
         min_v, max_v = self.header['mapping_variables_val0'][0][i], self.header['mapping_variables_valf'][0][i]
+        # for the actual data
         min_v = max([float(min_v), (x_values - width / 2).min()])
         max_v = min([float(max_v), (x_values + width / 2).max()])  
-        return min_v, max_v
+        # for possible change of data
+        self.min_val[i] = min([min_v, self.min_val[i]])
+        self.max_val[i] = max([max_v, self.max_val[i]])
+        return self.min_val[i], self.max_val[i]
 
     def adjust_correct_proportions(self, fig):
         # Adjust correct proportions
         fig.tight_layout()
         fig.subplots_adjust(top=self.opt_params['top_title'])
 
-class OneDimensionalAnalizer(BaseMarginalAnalizer):
+class OneDimensionalPlotter(BaseMarginalPlotter):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
         super().__init__(filename)
         self.one_dim_fig, self.one_dim_axes = self.axes_for_margin_of_dim(1)
@@ -68,7 +76,9 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
     def add_ith_histogram_to_plot(self, i):
         x_random, p, w = self.consturct_one_dim_histogram(self.data[:, i])
         self.one_dim_axes[i].bar(x_random, p, align='center', width=w,
-                                    edgecolor='black', facecolor='blue', alpha=0.5)
+                                 edgecolor='black', 
+                                 facecolor=self.opt_params.get('color_histogram', 'blue'), 
+                                 alpha=self.opt_params.get('alpha_histogram', 0.5))
         return x_random, p, w
 
 
@@ -85,17 +95,16 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
         # limits
         min_v, max_v = self.limits_for_single_file(x_random, w, i)
         self.one_dim_axes[i].set_xlim(min_v, max_v)
-
+        
     def plot_individual_histograms(self):
-        for i in range(self.header['Nvar']):            
+        for i in range(self.header['Nvar']):       
             # Plot histogram 
             x_random, _, w = self.add_ith_histogram_to_plot(i)
             ## Pretify graph
             self.add_default_style_to_histogram(x_random, w, i)
 
-
     # functions for the different marginalizations
-    def one_dimensional_plot(self):
+    def one_dimensional_plot(self, save=True):
         # Principal title
         plt.suptitle("One Dimensional Marginal Distribution \n for " + self.opt_params['system_name'], 
                      fontsize=20)
@@ -103,10 +112,12 @@ class OneDimensionalAnalizer(BaseMarginalAnalizer):
         self.plot_individual_histograms()
 
         self.adjust_correct_proportions(self.one_dim_fig)
-        # save image to file
-        self.one_dim_fig.savefig(self.opt_params['system_name'] + '_ond_dim_histogram.svg')
 
-class TwoDimensionalAnalizer(BaseMarginalAnalizer):
+        # save image to file
+        if save:
+            self.one_dim_fig.savefig(self.opt_params['system_name'] + '_one_dim_histogram.svg')
+
+class TwoDimensionalPlotter(BaseMarginalPlotter):
     def __init__(self, filename, opt_params= {"pretifier_variable_names" : None} ):
         super().__init__(filename)
         self.two_dim_fig, self.two_dim_axes = self.axes_for_margin_of_dim(2)
@@ -180,11 +191,12 @@ class TwoDimensionalAnalizer(BaseMarginalAnalizer):
         self.two_dim_fig.savefig(self.opt_params['system_name'] + '_two_dim_histogram.svg')
 
 
+# Below here all is an example of how to use the classes
 def one_dimensional_plot(name):
     opt_params= {"pretifier_variable_names" : {'rmin': 'q', 'f': 'ν', 'e': 'e', 'i': 'i', 'w': 'ω', 'W' : 'Ω'},
                  "system_name" : "AM 2229-735",
                  "top_title" : 0.86}
-    analyzer = OneDimensionalAnalizer(name, opt_params)
+    analyzer = OneDimensionalPlotter(name, opt_params)
     analyzer.one_dimensional_plot()
     plt.show()
 
@@ -193,7 +205,7 @@ def two_dimensional_plot(name):
                  "system_name" : "AM 2229-735",
                  "top_title" : 0.92,
                  "with-title" : False}
-    analyzer = TwoDimensionalAnalizer(name, opt_params)
+    analyzer = TwoDimensionalPlotter(name, opt_params)
     analyzer.two_dimensional_plot()
     plt.show()
 

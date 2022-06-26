@@ -27,6 +27,7 @@ def smaller_divisor_and_remainder(x):
         divisor += 1
     return 1, x
 
-
-def arr(x):
-  return np.array(x)
+def less_condition(array, value):
+    array = array < value
+    array = array.reshape(array.shape[0])
+    return array
