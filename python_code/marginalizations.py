@@ -196,11 +196,11 @@ class TwoDimensionalPlotter(BaseMarginalPlotter):
 
     def add_each_correlation_subplot(self, c, i, j):
         x, y = self.data[:, i], self.data[:, j]
-        self.two_dim_axes[c].plot(x, y, '.', ms=self.opt_params.get('ms', 0.1))
+        self.two_dim_axes[c].plot(x, y, '.', ms=self.opt_params.get('ms', 0.1), color=self.opt_params.get('color', 'blue'))
         return x, y
 
     def two_dimensional_correlation_plot(self, save=True):
-        plt.suptitle("Correlation for " + self.opt_params['system_name'], 
+        plt.suptitle("Correlation Maps for " + self.opt_params['system_name'], 
                 fontsize=14, y=0.99)
 
         c = 0
