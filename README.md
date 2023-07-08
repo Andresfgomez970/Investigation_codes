@@ -22,7 +22,7 @@ the galaxies’ orientation the rest of the parameters are known and observation
 uniformly high resolution and signal-to-noise ratio are present (these observations are
 modeled).
 
-Feel free to read the thesis for more details in the present file named: Orbital_Structure_of_Interacting_Galactic_Systems.pdf
+Feel free to read the thesis for more details in the present file named: Thesis.pdf
 
 # About the code here
 
